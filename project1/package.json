@@ -1,0 +1,22 @@
+{
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "Matrix multiplcation algorithms project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://lalva@github.com/lalva/cs331.git"
+  },
+  "author": "Lewis Alva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lalva/cs331/issues"
+  },
+  "homepage": "https://github.com/lalva/cs331#readme",
+  "dependencies": {
+    "moment": "^2.10.6"
+  }
+}
