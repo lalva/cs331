@@ -1,14 +1,7 @@
+var matrix = require('./matrix');
 // Divide-and-conqure matrix multiplication
-var matrixAdd = function(m, n) {
-  var c = [];
-  for (var i = 0; i < m.length; i++) {
-    c.push(m[i]+n[i]);
-  }
-  return c;
-};
-
-var divideAndConquer = function (m, n) {
-  var size = Math.sqrt(m.length);
+var dnc = function (m, n) {
+  var size = m.length;
   if (size > 1) {
     var a = [];
     var b = [];
@@ -18,64 +11,66 @@ var divideAndConquer = function (m, n) {
     var f = [];
     var g = [];
     var h = [];
-    var newSize = size / 2;
+    var halfSize = size / 2;
     for (var i = 0; i < size; i++) {
+      if (i < halfSize) {
+        a[i] = [];
+        e[i] = [];
+        b[i] = [];
+        f[i] = [];
+      } else {
+        c[i-halfSize] = [];
+        g[i-halfSize] = [];
+        d[i-halfSize] = [];
+        h[i-halfSize] = [];
+      }
       for (var j = 0; j < size; j++) {
-        if (i < newSize){
-          if (j < newSize) {
-            a.push(m[i*size+j]);
-            e.push(n[i*size+j]);
+        if (i < halfSize){
+          if (j < halfSize) {
+            a[i].push(m[i][j]);
+            e[i].push(n[i][j]);
           } else {
-            b.push(m[i*size+j]);
-            f.push(n[i*size+j]);
+            b[i].push(m[i][j]);
+            f[i].push(n[i][j]);
           }
         } else {
-          if (j < newSize) {
-            c.push(m[i*size+j]);
-            g.push(n[i*size+j]);
+          if (j < halfSize) {
+            c[i-halfSize].push(m[i][j]);
+            g[i-halfSize].push(n[i][j]);
           } else {
-            d.push(m[i*size+j]);
-            h.push(n[i*size+j]);
+            d[i-halfSize].push(m[i][j]);
+            h[i-halfSize].push(n[i][j]);
           }
         }
       }
     }
-    var aebg = matrixAdd(divideAndConquer(a, e), divideAndConquer(b, g));
-    var afbh = matrixAdd(divideAndConquer(a, f), divideAndConquer(b, h));
-    var cedg = matrixAdd(divideAndConquer(c, e), divideAndConquer(d, g));
-    var cfdh = matrixAdd(divideAndConquer(c, f), divideAndConquer(d, h));
-    var z = []//z11.concat(z12.concat(z21.concat(z22.concat())));
+    var aebg = matrix.add(dnc(a, e), dnc(b, g));
+    var afbh = matrix.add(dnc(a, f), dnc(b, h));
+    var cedg = matrix.add(dnc(c, e), dnc(d, g));
+    var cfdh = matrix.add(dnc(c, f), dnc(d, h));
+    var z = [];
     for (var i = 0; i < size; i++) {
+      z[i] = [];
       for (var j = 0; j < size; j++) {
-        if (i < newSize){
-          if (j < newSize) {
-            z.push(aebg[i + j]);
+        if (i < halfSize){
+          if (j < halfSize) {
+            z[i].push(aebg[i + j]);
           } else {
-            z.push(afbh[i - newSize + j]);
+            z[i].push(afbh[i - halfSize + j]);
           }
         } else {
-          if (j < newSize) {
-            z.push(cedg[i + j - newSize]);
+          if (j < halfSize) {
+            z[i].push(cedg[i + j - halfSize]);
           } else {
-            z.push(cfdh[i - newSize + j - newSize]);
+            z[i].push(cfdh[i - halfSize + j - halfSize]);
           }
         }
       }
     }
     return z;
   } else {
-    return [m * n];
+    return [[m[0][0] * n[0][0]]];
   }
 };
 
-module.exports = function (a, b, c) {
-  var m = [].concat.apply([], a);
-  var n = [].concat.apply([], b);
-  var matrixC = divideAndConquer(m, n);
-  for (var i = 0; i < a.length; i++) {
-    c[i] = [];
-    for (var j = 0; j < a.length; j++) {
-      c[i][j] = matrixC[i*a.length+j];
-    }
-  }
-};
+module.exports = dnc;
