@@ -48,6 +48,16 @@ module.exports = {
       return null;
     }
   },
+  subtract: function(a, b) {
+    if (Array.isArray(a) && Array.isArray(a[0]) && a.length === a[0].length && Array.isArray(b) && Array.isArray(b[0]) && b.length === b[0].length && a.length === b.length) {
+      return createMatrix(a.length, function(i, j) {
+        return a[i][j] - b[i][j];
+      });
+    } else {
+      console.log('Invlaid matricies for addition');
+      return null;
+    }
+  },
   multiply: function (a, b, f) {
     if (Array.isArray(a) && Array.isArray(a[0]) && a.length === a[0].length && Array.isArray(b) && Array.isArray(b[0]) && b.length === b[0].length && a.length === b.length) {
       var start = moment();
@@ -57,6 +67,21 @@ module.exports = {
     } else {
       console.log('Invlaid matricies for multiplication');
       return null;
+    }
+  },
+  compare: function (a, b) {
+    if (Array.isArray(a) && Array.isArray(a[0]) && a.length === a[0].length && Array.isArray(b) && Array.isArray(b[0]) && b.length === b[0].length && a.length === b.length) {
+      for (var i = 0; i < a.length; i++) {
+        for (var j = 0; j < a.length; j++) {
+          if (a[i][j] !== b[i][j]) {
+            return false;
+          }
+        }
+      }
+      return true;
+    } else {
+      console.log('Invlaid matricies for addition');
+      return false;
     }
   },
   toString: function (matrix) {

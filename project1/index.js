@@ -11,10 +11,12 @@ for (var i = 1; true; i++) {
   console.log('n: '+Math.pow(2, i));
   console.log('std:');
   var std = matrix.multiply(a, b, standard);
-  // console.log(matrix.toString(std));
-  console.log('dnc:');
-  var dnc = matrix.multiply(a, b, divideAndConquer);
-  // console.log(matrix.toString(dnc));
+  // console.log('dnc:');
+  // var dnc = matrix.multiply(a, b, divideAndConquer);
+  // console.log('std == dnc: ', matrix.compare(std, dnc));
+  console.log('strassen:');
+  var str = matrix.multiply(a, b, strassen);
+  console.log('std == strassen:', matrix.compare(std, strasse n));
   console.log('');
 }
 // var a = matrix.generate(16);
